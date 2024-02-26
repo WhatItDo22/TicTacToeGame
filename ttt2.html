@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe - Part 2</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+        }
+        .square:hover {
+            background-color: #e0e0e0;
+        }
+        h1 {
+            text-align: center;
+        }
+        .turn-indicator, .win-display {
+            margin: 20px auto;
+            text-align: center;
+            border: 1px solid black;
+            width: 200px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Tufts Tic Tac Toe</h1>
+
+<div class="turn-indicator">X's turn</div>
+
+<div id="gameBoard" class="grid-container">
+
+</div>
+
+<div class="win-display">Win condition goes here</div>
+
+<script>
+    const NUM_SQUARES = 9;
+    let squaresHTML = '';
+    for (let i = 0; i < NUM_SQUARES; i++) {
+        let id = "sq" + i;
+        squaresHTML += "<div class='square' id='" + id + "'></div>";
+    }
+    document.getElementById('gameBoard').innerHTML = squaresHTML;
+    </script>
+    
+
+</body>
+</html>

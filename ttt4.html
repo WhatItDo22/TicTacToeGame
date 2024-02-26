@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe Game</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .square {
+            width: 100px;
+            height: 100px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            cursor: pointer;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .square:hover {
+            background-color: #e0e0e0;
+        }
+        h1 {
+            text-align: center;
+        }
+        .turn-indicator, .win-display {
+            margin: 20px auto;
+            text-align: center;
+            border: 1px solid black;
+            width: 200px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Tufts Tic Tac Toe</h1>
+
+<div class="button-container">
+    <button id="startGame">Start Game</button>
+</div>
+
+<div class="turn-indicator">X's Turn</div>
+
+<div class="grid-container">
+    <script>
+        const NUM_SQUARES = 9;
+        for (let i = 0; i < NUM_SQUARES; i++) {
+            let id = "sq" + i;
+            document.write("<div class='square' id='" + id + "'></div>");
+        }
+    </script>
+</div>
+
+<div class="win-display"></div>
+
+<script>
+    let turn = "X";
+    let gameOver = false;
+    const winConditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6]            // Diagonals
+    ];
+
+    function checkWin() {
+        const squares = Array.from(document.querySelectorAll('.square'));
+        const currentBoard = squares.map(square => square.textContent || '');
+        let winner = null;
+
+        winConditions.forEach(condition => {
+            const [a, b, c] = condition;
+            if (currentBoard[a] && currentBoard[a] === currentBoard[b] && currentBoard[a] === currentBoard[c]) {
+                gameOver = true;
+                winner = currentBoard[a];
+            }
+        });
+
+        if (winner) {
+            document.querySelector('.win-display').textContent = winner + ' wins!';
+            squares.forEach(square => square.removeEventListener('click', squareClicked));
+        } else if (!currentBoard.includes('')) {
+            document.querySelector('.win-display').textContent = 'Stalemate!';
+        }
+    }
+
+    function squareClicked(event) {
+        let square = event.target;
+        if (!square.textContent && !gameOver) {
+            square.textContent = turn;
+            checkWin();
+            turn = turn === "X" ? "O" : "X";
+            document.querySelector('.turn-indicator').textContent = `${turn}'s Turn`;
+        }
+    }
+
+    function attachEventListeners() {
+        document.querySelectorAll('.square').forEach(square => {
+            square.addEventListener('click', squareClicked);
+        });
+    }
+
+    function startGame() {
+        document.querySelectorAll('.square').forEach(square => {
+            square.textContent = '';
+        });
+        gameOver = false;
+        turn = Math.random() < 0.5 ? "X" : "O";
+        document.querySelector('.turn-indicator').textContent = `${turn}'s Turn`;
+        document.querySelector('.win-display').textContent = '';
+        attachEventListeners();
+    }
+
+    document.getElementById('startGame').addEventListener('click', startGame);
+</script>
+
+</body>
+</html>
